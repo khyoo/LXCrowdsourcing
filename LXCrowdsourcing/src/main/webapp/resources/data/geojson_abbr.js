@@ -1,0 +1,30 @@
+var geos = {
+"type": "FeatureCollection",
+"name": "jeonju_point",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "distance": 390.0, "angle": 122.96967219394283 }, "geometry": { "type": "Point", "coordinates": [ 127.180107325725302, 35.829137138952682 ] } },
+{ "type": "Feature", "properties": { "distance": 420.0, "angle": 83.886170797131115 }, "geometry": { "type": "Point", "coordinates": [ 127.180405410716986, 35.829035176971672 ] } },
+{ "type": "Feature", "properties": { "distance": 0.0, "angle": 175.02755960813383 }, "geometry": { "type": "Point", "coordinates": [ 127.094741156376088, 35.811550389182436 ] } },
+{ "type": "Feature", "properties": { "distance": 30.0, "angle": 163.58625266864837 }, "geometry": { "type": "Point", "coordinates": [ 127.094800639252512, 35.811285417791858 ] } },
+{ "type": "Feature", "properties": { "distance": 60.0, "angle": 163.51863202674633 }, "geometry": { "type": "Point", "coordinates": [ 127.094894133092566, 35.811025985871488 ] } },
+{ "type": "Feature", "properties": { "distance": 0.0, "angle": 264.38539866438941 }, "geometry": { "type": "Point", "coordinates": [ 127.092197196597098, 35.856094909575823 ] } },
+{ "type": "Feature", "properties": { "distance": 30.0, "angle": 220.58048343862924 }, "geometry": { "type": "Point", "coordinates": [ 127.091880925406898, 35.856043274450236 ] } },
+{ "type": "Feature", "properties": { "distance": 0.0, "angle": 61.012552950570324 }, "geometry": { "type": "Point", "coordinates": [ 127.17238106127293, 35.826794549300196 ] } },
+{ "type": "Feature", "properties": { "distance": 30.0, "angle": 71.713153217758489 }, "geometry": { "type": "Point", "coordinates": [ 127.172681772161496, 35.82690727800388 ] } },
+{ "type": "Feature", "properties": { "distance": 60.0, "angle": 66.7092724907411 }, "geometry": { "type": "Point", "coordinates": [ 127.172989958633096, 35.827007278867562 ] } },
+{ "type": "Feature", "properties": { "distance": 90.0, "angle": 66.7092724907411 }, "geometry": { "type": "Point", "coordinates": [ 127.173295139314348, 35.827113745683043 ] } },
+{ "type": "Feature", "properties": { "distance": 120.0, "angle": 67.034915736696362 }, "geometry": { "type": "Point", "coordinates": [ 127.17360073262499, 35.827219422633483 ] } },
+{ "type": "Feature", "properties": { "distance": 150.0, "angle": 66.512168357143963 }, "geometry": { "type": "Point", "coordinates": [ 127.173905684480914, 35.827326296982271 ] } },
+{ "type": "Feature", "properties": { "distance": 180.0, "angle": 66.512168357143963 }, "geometry": { "type": "Point", "coordinates": [ 127.174210416064071, 35.827433615814499 ] } },
+{ "type": "Feature", "properties": { "distance": 210.0, "angle": 66.512168357143963 }, "geometry": { "type": "Point", "coordinates": [ 127.174515148465105, 35.827540933869912 ] } },
+{ "type": "Feature", "properties": { "distance": 0.0, "angle": 66.273400878586997 }, "geometry": { "type": "Point", "coordinates": [ 127.172083955825357, 35.827354063445014 ] } },
+{ "type": "Feature", "properties": { "distance": 30.0, "angle": 66.794105492696218 }, "geometry": { "type": "Point", "coordinates": [ 127.172388991728326, 35.827460801870934 ] } },
+{ "type": "Feature", "properties": { "distance": 60.0, "angle": 66.794105492696218 }, "geometry": { "type": "Point", "coordinates": [ 127.172694366587066, 35.827566902104245 ] } },
+{ "type": "Feature", "properties": { "distance": 90.0, "angle": 67.526519470406242 }, "geometry": { "type": "Point", "coordinates": [ 127.173000692969723, 35.827671154025566 ] } },
+{ "type": "Feature", "properties": { "distance": 120.0, "angle": 65.610438838041716 }, "geometry": { "type": "Point", "coordinates": [ 127.173303011698806, 35.827781996176455 ] } },
+{ "type": "Feature", "properties": { "distance": 150.0, "angle": 65.610438838041716 }, "geometry": { "type": "Point", "coordinates": [ 127.173605632553503, 35.827893208742033 ] } },
+{ "type": "Feature", "properties": { "distance": 180.0, "angle": 64.76656145358929 }, "geometry": { "type": "Point", "coordinates": [ 127.173908111720309, 35.828004672790321 ] } },
+{ "type": "Feature", "properties": { "distance": 210.0, "angle": 66.246923851582068 }, "geometry": { "type": "Point", "coordinates": [ 127.17421161691172, 35.828114245026953 ] } }
+]
+}

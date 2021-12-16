@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="CrowdLXMapper">
+	
+	<select id="getWorkerInfo" parameterType="workerDto" resultType="workerDto">
+        SELECT 
+        	worker_id
+        	<!-- , sns_id -->
+        	, "name"
+        	, email
+        	, birth
+        	, phone
+        	, sex
+        	, age
+        	, address
+        	, user_id
+        	, bank_code
+        	, bank_name
+        	, bank_acct
+        	, stdt_no
+		FROM worker_info
+		<where>		
+		<if test="user_id != null">AND user_id = #{user_id} </if>
+		<if test="passwd != null">AND passwd = crypt(#{passwd}, passwd) </if>		
+		</where>		
+	</select>
+	
+	<select id="getWorkerMissionCnt" parameterType="workerDto" resultType="workerDto">
+        select 
+			count(*) as mission_cnt
+		from result_info
+		where worker_id = #{worker_id} and eval_result = 'Y'
+	</select>
+	
+	<insert id="insertWorkerInfo" parameterType="workerDto">
+		INSERT INTO worker_info (
+			user_id
+			, passwd
+			, "name"
+			<!-- , sns_id -->
+			, email
+			, birth
+			, phone
+			, sex
+			, age
+			, address
+			, bank_code
+			, bank_name
+			, bank_acct
+			, stdt_no
+		) VALUES (
+			#{user_id}
+			,  crypt(#{passwd}, gen_salt('bf'))
+			, #{name}
+			<!-- , #{sns_id} -->
+			, #{email}
+			, #{birth}
+			, #{phone}
+			, #{sex}
+			, #{age}
+			, #{address}		
+			, #{bank_code}
+			, #{bank_name}
+			, #{bank_acct}
+			, #{stdt_no}
+		)
+	</insert>
+	
+	<update id="updateWorkerInfo" parameterType="workerDto">
+		UPDATE worker_info
+		SET 			
+			"name"=#{name}
+			<!-- ,passwd=crypt(#{passwd}, gen_salt('bf')) -->
+			, email=#{email}
+			, birth=#{birth}
+			, phone=#{phone}
+			, sex=#{sex}
+			<!-- , age='' -->
+			, address=''
+			, "comments"=''
+			<!-- , sns_id=#{sns_id} -->
+			, bank_code=#{bank_code}
+			, bank_name=#{bank_name}
+			, bank_acct=#{bank_acct}
+			, stdt_no=#{stdt_no}
+		WHERE worker_id = #{worker_id}		
+	</update>
+	
+	<update id="updateWorkerPasswd" parameterType="workerDto">
+		UPDATE worker_info
+		SET 			
+			passwd=crypt(#{passwd}, gen_salt('bf'))			
+		WHERE user_id = #{user_id}		
+	</update>
+		
+	<insert id="insertTaskList" parameterType="workerDto">
+		insert into task_list (task_id, task_order, pair_id, pre_yn, answer)
+		(select 
+			#{task_id} as task_id, (ROW_NUMBER() OVER()) AS task_order, b.*
+		from (
+			select 
+				a.*
+			from (
+				(select pair_id, 'N' as pre_yn, '' as answer from pairwise_info where pair_id between #{startIdx} and #{endIdx} order by pair_id)
+				union
+				(SELECT pretrained_id as pair_id, 'Y' as pre_yn, answer FROM pretrained_info ORDER BY RANDOM() LIMIT 5)	
+			) a
+			ORDER BY RANDOM()
+		) b)
+	</insert>
+	
+	<select id="getPretrainedList" parameterType="java.lang.String" resultType="resultMap">
+        SELECT 
+        	pretrained_id
+        	, image_id1
+        	, image_id2
+        	, answer
+        	, "comments"
+		FROM pretrained_info
+	</select>
+	
+	<select id="getPairwise" parameterType="java.lang.String" resultType="resultMap">
+        SELECT 
+        	pair_id
+        	, image_id1
+        	, image_id2
+        	, task_id
+        	, "comments"
+		FROM pairwise_info
+	</select>
+	
+	<select id="getEvalTaskList" parameterType="workerDto" resultType="resultMap">
+		select
+			a.*
+			, case when a.pre_yn = 'N' then (select image_id1 from pairwise_info where pair_id = a.pair_id) else (select image_id1 from pretrained_info where pretrained_id = a.pair_id) end as image_id1 
+			, case when a.pre_yn = 'N' then (select image_id2 from pairwise_info where pair_id = a.pair_id) else (select image_id2 from pretrained_info where pretrained_id = a.pair_id) end as image_id2
+		from task_list a		
+		where A.task_id = #{task_id}
+		order by A.task_order
+		<!-- 
+		select
+			A.*
+			, B.image_id1
+			, B.image_id2
+		from task_list A
+		left join (
+			SELECT 
+				pair_id
+				, image_id1
+				, image_id2	
+				, 'N' as pair_type
+				, '' as answer
+				, "comments"
+			FROM pairwise_info
+			UNION
+			SELECT 
+				pretrained_id as pair_id
+				, image_id1
+				, image_id2
+				, 'Y' as pair_type
+				, answer
+				, "comments"
+			from pretrained_info
+		) B
+			on A.pair_id = B.pair_id and A.pre_yn = B.pair_type
+		where A.task_id = #{task_id}
+		order by A.task_order
+		 --> 
+	</select>
+	
+	<select id="getResultTaskList" parameterType="java.lang.String" resultType="resultMap">
+		SELECT task_id
+		FROM public.result_info	
+	</select>
+	
+	<insert id="insertEvalResult" useGeneratedKeys="true" keyProperty="result_id" parameterType="workerDto">
+		INSERT INTO result_info (
+			task_id
+			, worker_id
+			, eval_time
+			, eval_score
+			, eval_result
+			, reg_date
+			, "comments"
+		) VALUES (
+			#{task_id}
+			, #{worker_id}
+			, #{eval_time}
+			, #{eval_score}
+			, #{eval_result}
+			, now()
+			, ''
+		)		
+	</insert>
+	
+	<insert id="insertTaskResult" parameterType="workerDto">
+		INSERT INTO public.task_result_list (
+			task_id
+			, worker_id
+			, task_order
+			, pair_id
+			, pre_yn
+			, pre_answer
+			, worker_answer
+			, reg_date
+			, "comments"
+			, result_id
+		) VALUES (
+			#{task_id}
+			, #{worker_id}
+			, #{taskNum}
+			, #{pair_id}
+			, #{pre_yn}
+			, #{answer}
+			, #{worker_answer}
+			, now()
+			, ''
+			, #{result_id}
+		)
+	</insert>
+	
+	<update id="updateTaskResult" parameterType="workerDto">
+		UPDATE public.task_result_list
+		SET 
+			worker_id=#{worker_id}			
+			, worker_answer=#{worker_answer}
+			, result_id=(select MAX(result_id) from result_info where task_id = #{task_id} and worker_id = #{worker_id})
+		WHERE task_id = #{task_id} and task_order = #{taskNum}
+	</update>
+	
+	<insert id="insertData" parameterType="workerDto">
+		INSERT INTO public.pairwise_test2 (
+			image_id1
+			, image_id2
+		) VALUES (
+			#{imgId1}
+			, #{imgId2}	
+		)		
+	</insert>
+	
+</mapper>
