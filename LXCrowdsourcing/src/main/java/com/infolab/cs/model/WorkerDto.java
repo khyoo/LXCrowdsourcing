@@ -30,6 +30,8 @@ public class WorkerDto {
 	
 	private int mission_cnt;
 	
+	private String gname;
+	
 	private int pair_id;
 	private String pre_yn;
 	private String answer;

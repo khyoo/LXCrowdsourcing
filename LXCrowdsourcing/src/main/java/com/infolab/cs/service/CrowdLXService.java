@@ -78,6 +78,13 @@ public class CrowdLXService {
 		return result;
 	}
 	
+	public int getRandomTaskId() {	
+		
+		int result = dataDao.getRandomTaskId(); 
+		
+		return result;
+	}
+	
 	public int insertEvalResultService(WorkerDto workerInfo) {
 		
 		int result = dataDao.insertEvalResultDao(workerInfo);

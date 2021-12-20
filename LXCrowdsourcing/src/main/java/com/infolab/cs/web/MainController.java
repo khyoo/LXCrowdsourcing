@@ -3,6 +3,7 @@ package com.infolab.cs.web;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,13 +48,15 @@ public class MainController {
 	
 	@Autowired
 	private CrowdLXService cs;
+	
+	private Map<String, Object> evalTasks = new HashMap<String, Object>();
 		
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Request GET (/) : The client locale is {}.", locale);
+		logger.info("Controller(GET): / The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
@@ -71,7 +75,7 @@ public class MainController {
 	@ResponseBody
 	public Map<String, Object> postLogin(Locale locale, Model model, HttpServletRequest request,
 			@RequestBody WorkerDto workerInfo) {
-		logger.info("Request POST (/) : The client locale is {}.", locale);
+		logger.info("Controller(POST): /login The client locale is {}.", locale);
 
 		Map<String, Object> resData = new LinkedHashMap<String, Object>();
 		
@@ -101,38 +105,7 @@ public class MainController {
 				
 		return "worker/privateTerms";
 	}
-	
-	/*
-	@RequestMapping(value = "/khyoo", method = RequestMethod.GET)
-	public String khyoo(Locale locale, Model model) {
-		logger.info("Controller(GET): /khyoo The client locale is {}.", locale);
 		
-		int len = 127080;
-		
-		WorkerDto wkr = new WorkerDto();
-		
-		int startX = 1;
-		int endX = 50;
-		
-		int taskId = 1;
-		
-		for(int i=0; i<len/50; i++) {
-			wkr.setStartIdx(startX);
-			wkr.setEndIdx(endX);	
-
-			wkr.setTask_id(taskId);
-			
-			int result = cs.insertTaskList(wkr);
-			
-			startX += 50;
-			endX += 50;
-			taskId++;
-		}
-				
-		return "worker/privateTerms";
-	}
-	*/
-	
 	/**
 	 * Worker Id 체크
 	 */
@@ -140,7 +113,7 @@ public class MainController {
 	@ResponseBody
 	public Map<String, Object> getIdchk(Locale locale, Model model, 
 			@RequestBody WorkerDto workerInfo) {
-		logger.info("Controller(GET): /idchk The client locale is {}.", locale);
+		logger.info("Controller(POST): /idchk The client locale is {}.", locale);
 		
 		Map<String, Object> resData = new LinkedHashMap<String, Object>();
 		
@@ -275,8 +248,8 @@ public class MainController {
 	 * Worker Tester
 	 */
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String tester(Model model, HttpServletRequest request) {
-//		logger.info("Welcome home! The client locale is {}.", locale);
+	public String tester(Locale locale, Model model, HttpServletRequest request) {
+		logger.info("Controller(GET): /dashboard The client locale is {}.", locale);
 		
 		HttpSession session = request.getSession();
 		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo"); 
@@ -297,37 +270,48 @@ public class MainController {
 	/**
 	 * Worker 태스크 평가
 	 */
-	@RequestMapping(value = "/evaluation", method = RequestMethod.GET)
+	@RequestMapping(value = "/evaluation/{group_name}", method = RequestMethod.GET)
 	public String evaluation(Locale locale, Model model, HttpServletRequest request,
+			@PathVariable("group_name") String gname,
 			@RequestParam(value = "taskId", defaultValue = "") String taskId,
 			@RequestParam(value = "taskNum", defaultValue = "1") String taskNum) {
-		logger.info("Evaluation GET Requst! The client locale is {}.", locale);
+		logger.info("Controller(GET): /evaluation The client locale is {}.", locale);
 		
-		int task_id = 0;
+		System.out.println(evalTasks);
 		
-		List<Integer> rtaskList = cs.getResultTaskList();
-		
+		int task_id = 0;		
 		if (taskId != null && !"".equals(taskId)) {
 			task_id = Integer.parseInt(taskId);
 		} else {
-			Random rand = new Random();
-			task_id = rand.nextInt(2540)+1;
-			
-			if(rtaskList.contains(task_id)) {
-				task_id = rand.nextInt(2540)+1;
-			}
-		}
+			task_id = cs.getRandomTaskId();
+		}		 
 				
 		HttpSession session = request.getSession();
-		session.setAttribute("taskId", task_id);
-		
+				
 		session.setAttribute("correct", 0);
 		
 		long startTime = System.currentTimeMillis();
 		session.setAttribute("startTime", startTime);		
 		
 		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo");
+		
+		if (evalTasks.containsKey(String.valueOf(workerInfo.getWorker_id()))) {			
+			evalTasks.put(String.valueOf(workerInfo.getWorker_id()), task_id);
+			//task_id = (int) evalTasks.get(String.valueOf(workerInfo.getWorker_id()));
+		} else {
+			while (evalTasks.containsValue(task_id)) {
+				task_id = cs.getRandomTaskId(); 	
+			}
+			evalTasks.put(String.valueOf(workerInfo.getWorker_id()), task_id);
+		}
 		workerInfo.setTask_id(task_id);
+		session.setAttribute("taskId", task_id);		
+		
+		if (gname != null && !"".equals(gname)) {
+			workerInfo.setGname(gname);
+		} else {
+			workerInfo.setGname("g1");
+		}
 		
 		WorkerDto evalChk = cs.getWorkerMissionCnt(workerInfo);
 		
@@ -361,18 +345,18 @@ public class MainController {
 			@RequestParam(value = "taskNum", defaultValue = "0") int taskNum,
 			@RequestParam(value = "questAnswer", defaultValue = "0") int questAnswer) throws IOException {	
 	
-		logger.info("Evaluation POST Requst! The client locale is {}.", locale);
+		logger.info("Controller(POST): /evaluation The client locale is {}.", locale);
 		
 		HttpSession session = request.getSession();
 		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo");
-				
+		
 		List<LinkedHashMap<String, Object>> result = cs.getEvalTaskList(workerInfo);
 		System.out.println(result.get(taskNum-1));
 		
 		LinkedHashMap<String, Object> taskDetail = result.get(taskNum-1);
 		
 		int correct = (int) session.getAttribute("correct");
-		System.out.println(taskDetail.get("task_order"));
+		
 		if("Y".equals(taskDetail.get("pre_yn"))) {
 			String tempAn = "";
 			if(questAnswer == 1) {
@@ -419,8 +403,11 @@ public class MainController {
 				if (correct < 4) {
 					evalValid = "N";
 				}
+				workerInfo.setEval_score(correct);	
 				workerInfo.setEval_result(evalValid);
 				workerInfo.setTask_id((int)session.getAttribute("taskId"));
+				
+				evalTasks.remove(String.valueOf(workerInfo.getWorker_id()));
 				
 				model.addAttribute("correct", correct);
 				model.addAttribute("evalValid", evalValid);
@@ -466,8 +453,8 @@ public class MainController {
 	 * Worker Pretrained
 	 */
 	@RequestMapping(value = "/pretrained", method = RequestMethod.GET)
-	public String pretrained(Model model, HttpServletRequest request) {
-//		logger.info("pretrained The client locale is {}.", locale);
+	public String pretrained(Locale locale, Model model, HttpServletRequest request) {
+		logger.info("Controller(GET): /pretrained The client locale is {}.", locale);
 		
 		WorkerDto workerInfo = new WorkerDto();
 		

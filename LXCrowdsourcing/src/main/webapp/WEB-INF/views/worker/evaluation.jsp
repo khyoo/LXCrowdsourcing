@@ -366,7 +366,9 @@
 	<script src="/resources/js/sb-admin-2.min.js"></script>
 
 	<script>
-	
+		
+		window.history.pushState(null, document.title, location.href); 
+			
 		var choiceImg1 = 0;
 		var choiceImg2 = 0;
 		var choiceImg3 = 0;
@@ -382,7 +384,7 @@
 			$('#alertEvalProcess').modal('show')
 			
 			$('.move').click(function() {
-				location.href = '/evaluation';				
+				location.href = '/evaluation/g2';				
 			})			
 		});
 		
@@ -406,7 +408,7 @@
 			$('#alertEvalProcess').modal('show')
 			
 			$('.move').click(function() {
-				location.href = '/';				
+				location.href = '/dashboard';				
 			})			
 		});
 				

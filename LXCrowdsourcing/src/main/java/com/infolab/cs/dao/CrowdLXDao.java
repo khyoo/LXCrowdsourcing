@@ -23,6 +23,8 @@ public interface CrowdLXDao {
 	
 	public List<Integer> getResultTaskList();
 	
+	public int getRandomTaskId();
+	
 	public int insertEvalResultDao(WorkerDto workerInfo);	
 	
 	public int insertTaskResult(WorkerDto workerInfo);

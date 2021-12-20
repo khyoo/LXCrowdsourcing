@@ -137,40 +137,31 @@
 	<select id="getEvalTaskList" parameterType="workerDto" resultType="resultMap">
 		select
 			a.*
+			<if test="gname != null and 'g1'.equals(gname)">
 			, case when a.pre_yn = 'N' then (select image_id1 from pairwise_info where pair_id = a.pair_id) else (select image_id1 from pretrained_info where pretrained_id = a.pair_id) end as image_id1 
 			, case when a.pre_yn = 'N' then (select image_id2 from pairwise_info where pair_id = a.pair_id) else (select image_id2 from pretrained_info where pretrained_id = a.pair_id) end as image_id2
+			</if>
+			<if test="gname != null and 'g2'.equals(gname)">
+			, case when a.pre_yn = 'N' then (select image_id1 from pairwise_info_g2 where pair_id = a.pair_id) else (select image_id1 from pretrained_info where pretrained_id = a.pair_id) end as image_id1 
+			, case when a.pre_yn = 'N' then (select image_id2 from pairwise_info_g2 where pair_id = a.pair_id) else (select image_id2 from pretrained_info where pretrained_id = a.pair_id) end as image_id2
+			</if>
 		from task_list a		
 		where A.task_id = #{task_id}
-		order by A.task_order
-		<!-- 
-		select
-			A.*
-			, B.image_id1
-			, B.image_id2
-		from task_list A
-		left join (
-			SELECT 
-				pair_id
-				, image_id1
-				, image_id2	
-				, 'N' as pair_type
-				, '' as answer
-				, "comments"
-			FROM pairwise_info
-			UNION
-			SELECT 
-				pretrained_id as pair_id
-				, image_id1
-				, image_id2
-				, 'Y' as pair_type
-				, answer
-				, "comments"
-			from pretrained_info
-		) B
-			on A.pair_id = B.pair_id and A.pre_yn = B.pair_type
-		where A.task_id = #{task_id}
-		order by A.task_order
-		 --> 
+		order by A.task_order		
+	</select>
+	
+	<select id="getRandomTaskId" parameterType="java.lang.String" resultType="int">
+		select 
+			*
+		from (
+			select 
+				distinct task_id
+			from task_list
+			where task_id not in (select task_id from result_info where eval_result = 'Y')
+			order by task_id
+		) a
+		order by random()
+		limit 1
 	</select>
 	
 	<select id="getResultTaskList" parameterType="java.lang.String" resultType="resultMap">

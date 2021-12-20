@@ -84,6 +84,14 @@ public class CrowdLXDaoImpl implements CrowdLXDao {
 	}
 	
 	@Override
+	public int getRandomTaskId() {	
+		
+		int resultList = sqlSession.selectOne("CrowdLXMapper.getRandomTaskId");
+		
+		return resultList;
+	}
+	
+	@Override
 	public List<LinkedHashMap<String, Object>> getPairwiseDao() {	
 		
 		resultList = sqlSession.selectList("CrowdLXMapper.getPairwise");
