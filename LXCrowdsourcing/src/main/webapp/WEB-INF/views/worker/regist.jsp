@@ -166,32 +166,10 @@
 							<label for="birthDate" class="col-sm-3 control-label">생년월일<span class="necessary">*</span></label>
 							<div class="col-sm-9">								
 								<select name="birth1" class="col-sm-2 form-control" style="display:inline-block" required>
-									<option value="2005">2005</option>
-									<option value="2004">2004</option>
-									<option value="2003">2003</option>
-									<option value="2002">2002</option>
-									<option value="2001">2001</option>
-									<option value="2000" selected>2000</option>
-									<option value="1999">1999</option>
-									<option value="1998">1998</option>
-									<option value="1997">1997</option>
-									<option value="1996">1996</option>
-									<option value="1995">1995</option>
-									<option value="1994">1994</option>
-									<option value="1993">1993</option>
-									<option value="1992">1992</option>
-									<option value="1991">1991</option>
-									<option value="1990">1990</option>
-									<option value="1989">1989</option>
-									<option value="1988">1988</option>
-									<option value="1987">1987</option>
-									<option value="1986">1986</option>
-									<option value="1985">1985</option>
-									<option value="1984">1984</option>
-									<option value="1983">1983</option>
-									<option value="1982">1982</option>
-									<option value="1981">1981</option>
-									<option value="1980">1980</option>
+									<c:set var="endYear" value="2010"></c:set>
+									<c:forEach var="i" begin="0" end="60" step="1">
+										<option value="${endYear-i}" <c:if test="${(endYear-i) eq '2000'}">selected</c:if>>${endYear-i}</option>    
+									</c:forEach>									
 								</select>
 								-
 								<select name="birth2" class="col-sm-2 form-control" style="display:inline-block" required>
@@ -220,6 +198,12 @@
 								<input type="phoneNumber" name="phone" id="phone" placeholder="연락처를 입력해 주십시오." class="form-control" required>
 							</div>
 						</div>						
+						<div class="form-group">
+							<label for="phoneNumber" class="col-sm-3 control-label">주소<span class="necessary">*</span></label>
+							<div class="col-sm-9">
+								<input type="text" name="address" id="address" placeholder="주소를 입력해 주십시오." class="form-control" required>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3">성별<span class="necessary">*</span></label>
 							<div class="col-sm-6">
@@ -382,14 +366,19 @@
 				return false;
 			}
 			
+			var now = new Date();
+			var age = now.getFullYear() - Number($('[name="birth1"]').val()) + 1;
+			
 			var params = {
 				"user_id" : $('#userId').val(),
 				"stdt_no" : $('#stdtNo').val(),
 				"passwd" : $('#passwd1').val(),
 				"name" : $('[name="name"]').val(),
 				"email" : $('[name="email"]').val(),
+				"age" : age,
 				"birth" : $('[name="birth1"]').val()+'-'+$('[name="birth2"]').val()+'-'+$('[name="birth3"]').val(),
 				"phone" : $('[name="phone"]').val(),
+				"address" : $('[name="address"]').val(),
 				"sex" : $("input[name='sex']:checked").val(),
 				"bank_code" : $('#bank_code').val(),
 				"bank_name" : $('#bank_name').val(),

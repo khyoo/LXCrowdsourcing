@@ -80,8 +80,8 @@
 			, birth=#{birth}
 			, phone=#{phone}
 			, sex=#{sex}
-			<!-- , age='' -->
-			, address=''
+			, age=#{age}
+			, address=#{address}
 			, "comments"=''
 			<!-- , sns_id=#{sns_id} -->
 			, bank_code=#{bank_code}

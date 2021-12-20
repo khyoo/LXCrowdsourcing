@@ -185,32 +185,10 @@
 								<input type="date" name="birth" id="birth" class="form-control" value="${result.birth}" readonly required>
 								 -->
 								 <select name="birth1" id="birth1" class="col-sm-2 form-control" style="display:inline-block" disabled required>
-									<option value="2005" <c:if test="${fn:split(result.birth,'-')[0] == '2005'}">selected</c:if>>2005</option>
-									<option value="2004" <c:if test="${fn:split(result.birth,'-')[0] == '2004'}">selected</c:if>>2004</option>
-									<option value="2003" <c:if test="${fn:split(result.birth,'-')[0] == '2003'}">selected</c:if>>2003</option>
-									<option value="2002" <c:if test="${fn:split(result.birth,'-')[0] == '2002'}">selected</c:if>>2002</option>
-									<option value="2001" <c:if test="${fn:split(result.birth,'-')[0] == '2001'}">selected</c:if>>2001</option>
-									<option value="2000" <c:if test="${fn:split(result.birth,'-')[0] == '2000'}">selected</c:if>>2000</option>
-									<option value="1999" <c:if test="${fn:split(result.birth,'-')[0] == '1999'}">selected</c:if>>1999</option>
-									<option value="1998" <c:if test="${fn:split(result.birth,'-')[0] == '1998'}">selected</c:if>>1998</option>
-									<option value="1997" <c:if test="${fn:split(result.birth,'-')[0] == '1997'}">selected</c:if>>1997</option>
-									<option value="1996" <c:if test="${fn:split(result.birth,'-')[0] == '1996'}">selected</c:if>>1996</option>
-									<option value="1995" <c:if test="${fn:split(result.birth,'-')[0] == '1995'}">selected</c:if>>1995</option>
-									<option value="1994" <c:if test="${fn:split(result.birth,'-')[0] == '1994'}">selected</c:if>>1994</option>
-									<option value="1993" <c:if test="${fn:split(result.birth,'-')[0] == '1993'}">selected</c:if>>1993</option>
-									<option value="1992" <c:if test="${fn:split(result.birth,'-')[0] == '1992'}">selected</c:if>>1992</option>
-									<option value="1991" <c:if test="${fn:split(result.birth,'-')[0] == '1991'}">selected</c:if>>1991</option>
-									<option value="1990" <c:if test="${fn:split(result.birth,'-')[0] == '1990'}">selected</c:if>>1990</option>
-									<option value="1989" <c:if test="${fn:split(result.birth,'-')[0] == '1989'}">selected</c:if>>1989</option>
-									<option value="1988" <c:if test="${fn:split(result.birth,'-')[0] == '1988'}">selected</c:if>>1988</option>
-									<option value="1987" <c:if test="${fn:split(result.birth,'-')[0] == '1987'}">selected</c:if>>1987</option>
-									<option value="1986" <c:if test="${fn:split(result.birth,'-')[0] == '1986'}">selected</c:if>>1986</option>
-									<option value="1985" <c:if test="${fn:split(result.birth,'-')[0] == '1985'}">selected</c:if>>1985</option>
-									<option value="1984" <c:if test="${fn:split(result.birth,'-')[0] == '1984'}">selected</c:if>>1984</option>
-									<option value="1983" <c:if test="${fn:split(result.birth,'-')[0] == '1983'}">selected</c:if>>1983</option>
-									<option value="1982" <c:if test="${fn:split(result.birth,'-')[0] == '1982'}">selected</c:if>>1982</option>
-									<option value="1981" <c:if test="${fn:split(result.birth,'-')[0] == '1981'}">selected</c:if>>1981</option>
-									<option value="1980" <c:if test="${fn:split(result.birth,'-')[0] == '1980'}">selected</c:if>>1980</option>
+									<c:set var="endYear" value="2010"></c:set>
+									<c:forEach var="i" begin="0" end="60" step="1">
+										<option value="${endYear-i}" <c:if test="${(endYear-i) eq fn:split(result.birth,'-')[0]}">selected</c:if>>${endYear-i}</option>    
+									</c:forEach>
 								</select>
 								-
 								<select name="birth2" id="birth2" class="col-sm-2 form-control" style="display:inline-block" disabled required>
@@ -238,7 +216,13 @@
 							<div class="col-sm-9">
 								<input type="phoneNumber" name="phone" id="phone" placeholder="연락처를 입력해 주십시오." class="form-control" value="${result.phone}" readonly required>
 							</div>
-						</div>						
+						</div>	
+						<div class="form-group">
+							<label for="phoneNumber" class="col-sm-3 control-label">주소<span class="necessary">*</span></label>
+							<div class="col-sm-9">
+								<input type="text" name="address" id="address" placeholder="주소를 입력해 주십시오." class="form-control" value="${result.address}" readonly required>
+							</div>
+						</div>					
 						<div class="form-group">
 							<label class="control-label col-sm-3">성별<span class="necessary">*</span></label>
 							<div class="col-sm-6">
@@ -566,6 +550,7 @@
 			$('#birth2').prop('disabled', false);
 			$('#birth3').prop('readOnly', false);
 			$('#phone').prop('readOnly', false);
+			$('#address').prop('readOnly', false);
 
 			$('#maleRadio').prop('disabled', false);
 			$('#femaleRadio').prop('disabled', false);
@@ -597,6 +582,7 @@
 			$('#birth2').prop('disabled', true);
 			$('#birth3').prop('readOnly', true);
 			$('#phone').prop('readOnly', true);
+			$('#address').prop('readOnly', true);
 
 			$('#maleRadio').prop('disabled', true);
 			$('#femaleRadio').prop('disabled', true);
@@ -605,14 +591,19 @@
 			$('#bank_name').prop('readOnly', true);
 			$('#bank_acct').prop('readOnly', true);
 			
+			var now = new Date();
+			var age = now.getFullYear() - Number($('[name="birth1"]').val()) + 1;
+			
 			var params = {
 				"user_id" : $('#user_id').val(),
 				"stdt_no" : $('#stdtNo').val(),
 				"worker_id" : $('#worker_id').val(),
 				"name" : $('#name').val(),
 				"email" : $('#email').val(),
+				"age" : age,
 				"birth" : $('#birth1').val()+'-'+$('#birth2').val()+'-'+$('#birth3').val(),
 				"phone" : $('#phone').val(),
+				"address" : $('#address').val(),
 				"sex" : $("input[name='sex']:checked").val(),
 				"bank_code" : $('#bank_code').val(),
 				"bank_name" : $('#bank_name').val(),
