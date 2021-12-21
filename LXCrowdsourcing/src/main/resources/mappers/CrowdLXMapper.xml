@@ -234,4 +234,71 @@
 		)		
 	</insert>
 	
+	
+	<!-- ******************************************************** -->
+	<!-- Admin Page -->
+	
+	<select id="getTotalTaskCnt" parameterType="java.lang.String" resultType="int">
+		select 
+			count(a.*)
+		from (
+			select 
+				distinct task_id
+			from task_list
+		) a
+	</select>
+	
+	<select id="getEvalTaskCnt" parameterType="java.lang.String" resultType="int">
+		select 
+			count(a.*)
+		from (
+			select 
+				distinct task_id
+			from task_list
+			where task_id in (select task_id from result_info where eval_result = 'Y')
+		) a
+	</select>
+	
+	<select id="getResultInfoList" parameterType="java.lang.String" resultType="resultMap">
+		SELECT 
+        	a.result_id
+        	, a.task_id
+        	, a.worker_id
+        	, a.eval_time
+        	, a.eval_score        	
+        	, case when a.eval_result = 'Y' then '성공'
+        	       when a.eval_result = 'N' then '실패' end as eval_result
+        	, a.reg_date
+        	, b.name
+		FROM result_info a
+		left join worker_info b
+			on a.worker_id = b.worker_id 
+		order by a.result_id 
+	</select>
+	
+	
+	<select id="getTaskAggList" parameterType="java.lang.String" resultType="resultMap">
+		select 
+			a.task_id 
+			, count(b.eval_result) as eval_cnt
+			, case when count(b.eval_result) > 0 then '평가완료' else '대기' end as eval_result
+			, ARRAY_TO_STRING(ARRAY_AGG(c.name),',') as eval_worker
+		from (
+			select 
+				task_id 
+			from task_list a
+			group by task_id
+			order by task_id
+		) a
+		left join result_info b
+			on a.task_id = b.task_id and b.eval_result = 'Y'
+		left join worker_info c
+			on b.worker_id = c.worker_id 
+		group by a.task_id 
+		order by a.task_id
+	</select>
+	
+	
+	<!-- ******************************************************** -->
+	
 </mapper>

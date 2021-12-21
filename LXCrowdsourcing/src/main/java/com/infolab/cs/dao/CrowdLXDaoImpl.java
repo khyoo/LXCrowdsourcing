@@ -213,4 +213,47 @@ public class CrowdLXDaoImpl implements CrowdLXDao {
 		}
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public int getTotalTaskCnt() {	
+		
+		int resultList = sqlSession.selectOne("CrowdLXMapper.getTotalTaskCnt");
+		
+		return resultList;
+	}
+	
+	@Override
+	public int getEvalTaskCnt() {	
+		
+		int resultList = sqlSession.selectOne("CrowdLXMapper.getEvalTaskCnt");
+		
+		return resultList;
+	}
+	
+	@Override
+	public List<LinkedHashMap<String, Object>> getResultInfoList() {	
+		
+		resultList = sqlSession.selectList("CrowdLXMapper.getResultInfoList");
+		
+		return resultList;
+	}	
+	
+	@Override
+	public List<LinkedHashMap<String, Object>> getTaskAggList() {	
+		
+		resultList = sqlSession.selectList("CrowdLXMapper.getTaskAggList");
+		
+		return resultList;
+	}	
 }

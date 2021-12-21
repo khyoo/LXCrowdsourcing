@@ -120,4 +120,16 @@ public class CrowdLXService {
 		
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	public int getTotalTaskCnt() { return dataDao.getTotalTaskCnt(); }
+	public int getEvalTaskCnt() { return dataDao.getEvalTaskCnt(); }
+	
+	public List<LinkedHashMap<String, Object>> getResultInfoList() { return dataDao.getResultInfoList(); }	
+	public List<LinkedHashMap<String, Object>> getTaskAggList() { return  dataDao.getTaskAggList(); }
+	
 }
