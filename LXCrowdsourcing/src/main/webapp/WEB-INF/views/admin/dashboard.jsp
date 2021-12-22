@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -60,6 +61,21 @@
 			<li class="nav-item"><a class="nav-link" href="/mypage">
 					<i class="fas fa-fw fa-cog"></i> <span>마이페이지</span>
 				</a></li>
+				
+			<c:if test="${workerInfo.level == 1}">
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link" href="/admin/dashboard">
+					- <span>태스크 결과 목록</span>
+				</a></li>
+
+			<!-- Nav Item - Utilities Collapse Menu -->
+			<li class="nav-item"><a class="nav-link" href="/admin/dashboard2">
+					- <span>전체 태스크 상태</span>
+				</a></li>
+			</c:if>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
@@ -164,7 +180,7 @@
 					
 					<div class="mb-2">&nbsp;</div>
 					<h2>태스크 결과</h2>
-					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align:center;">
 						<thead>
 							<tr>
 								<th>No.</th>
@@ -295,12 +311,13 @@
 						html += '			<th>No.</th>';
 						html += '			<th>왼쪽 이미지</th>';
 						html += '			<th>오른쪽 이미지</th>';
+						html += '			<th>정답 이미지</th>';
 						html += '			<th>평가 결과</th>';
 						html += '		</tr>';
 						html += '	</thead>';
 						html += '	<tbody>';
 						for(var i=0; i<data.result.length; i++) {
-							var temp = '';
+							var temp = '', temp1 = '';
 							if(data.result[i].worker_answer == 'left') {
 								temp = '왼쪽';
 							} else if(data.result[i].worker_answer == 'right') {
@@ -308,10 +325,17 @@
 							} else if(data.result[i].worker_answer == 'equal') {
 								temp = '일치';
 							}
+							
+							if(data.result[i].pre_answer == 'left') {
+								temp1 = '왼쪽';
+							} else if(data.result[i].pre_answer == 'right') {
+								temp1 = '오른쪽';
+							}
 							html += '		<tr>';
-							html += '			<th>'+ (i+1) +'</th>';
+							html += '			<th>'+ (i+1) +'</th>';							
 							html += '			<th>'+ data.result[i].image_id1 +'</th>';
 							html += '			<th>'+ data.result[i].image_id2 +'</th>';
+							html += '			<th>'+ temp1 +'</th>';
 							html += '			<th>'+ temp +'</th>';
 							html += '		</tr>';
 						}

@@ -27,6 +27,7 @@ public class WorkerDto {
 	private int eval_time;
 	private int eval_score;
 	private String eval_result;
+	private int level;
 	
 	private int mission_cnt;
 	

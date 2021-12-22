@@ -73,6 +73,7 @@ public class MainController {
 		if (result != null) {
 			workerInfo.setWorker_id(result.getWorker_id());
 			workerInfo.setName(result.getName());
+			workerInfo.setLevel(result.getLevel());
 			
 			HttpSession session = request.getSession();			
 			session.setAttribute("workerInfo", workerInfo);
@@ -117,7 +118,7 @@ public class MainController {
 	}
 	
 	/**
-	 * Worker 회원가입
+	 * Worker 회원가입 화면 요청
 	 */
 	@RequestMapping(value = "/regist", method = RequestMethod.GET)
 	public String getRegist(Locale locale, Model model) {
@@ -127,7 +128,7 @@ public class MainController {
 	}
 	
 	/**
-	 * Worker 회원가입
+	 * Worker 회원가입 처리 요청
 	 */
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	@ResponseBody
@@ -146,7 +147,7 @@ public class MainController {
 		session.setAttribute("workerInfo", workerInfo);
 		
 		Map<String, Object> resData = new LinkedHashMap<String, Object>();
-		resData.put("result", "OK");
+		resData.put("result", result==1?"OK":"FAIL");
 		
 		return resData;
 	}
@@ -190,7 +191,7 @@ public class MainController {
 	}
 	
 	/**
-	 * Worker mypage
+	 * Worker 마이페이지 화면 요청
 	 */
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(Locale locale, Model model, HttpServletRequest request) {
@@ -199,17 +200,14 @@ public class MainController {
 		HttpSession session = request.getSession();
 		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo"); 
 		
-		//model.addAttribute("workerInfo", workerInfo);
-		
-		WorkerDto result = cs.getWorkerInfo(workerInfo);
-		
+		WorkerDto result = cs.getWorkerInfo(workerInfo);		
 		model.addAttribute("result", result);
 		
 		return "worker/mypage";
 	}
 	
 	/**
-	 * Worker Tester
+	 * Worker 마이페이지 처리 요청
 	 */
 	@RequestMapping(value = "/mypage", method = RequestMethod.POST)
 	@ResponseBody
@@ -228,13 +226,13 @@ public class MainController {
 		session.setAttribute("workerInfo", workerInfo);
 		
 		Map<String, Object> resData = new LinkedHashMap<String, Object>();
-		resData.put("result", "OK");
+		resData.put("result", result==1?"OK":"FAIL");
 		
 		return resData;
 	}
 	
 	/**
-	 * Worker Tester
+	 * Worker 대시보드 화면 요청
 	 */
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String tester(Locale locale, Model model, HttpServletRequest request) {
@@ -252,6 +250,9 @@ public class MainController {
 		model.addAttribute("missionCnt", result.getMission_cnt());
 		model.addAttribute("missionPctge", String.format("%.2f", pctge));
 		model.addAttribute("reward", result.getMission_cnt()*1200);
+		
+		List<LinkedHashMap<String, Object>> resultList = cs.getResultInfoList(workerInfo);		
+		model.addAttribute("resultList", resultList);
 		
 		return "worker/dashboard";
 	}

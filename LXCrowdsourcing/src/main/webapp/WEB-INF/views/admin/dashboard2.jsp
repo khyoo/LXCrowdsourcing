@@ -60,6 +60,21 @@
 			<li class="nav-item"><a class="nav-link" href="/mypage">
 					<i class="fas fa-fw fa-cog"></i> <span>마이페이지</span>
 				</a></li>
+			
+			<c:if test="${workerInfo.level == 1}">
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link" href="/admin/dashboard">
+					- <span>태스크 결과 목록</span>
+				</a></li>
+
+			<!-- Nav Item - Utilities Collapse Menu -->
+			<li class="nav-item"><a class="nav-link" href="/admin/dashboard2">
+					- <span>전체 태스크 상태</span>
+				</a></li>
+			</c:if>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
@@ -163,8 +178,8 @@
 					</div>
 					
 					<div class="mb-2">&nbsp;</div>
-					<h2>태스크 결과</h2>
-					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<h2>전체 태스크별 평가 상태</h2>
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align:center;">
 						<thead>
 							<tr>
 								<th>No.</th>

@@ -41,7 +41,7 @@ public interface CrowdLXDao {
 	public int getTotalTaskCnt();	
 	public int getEvalTaskCnt();
 	
-	public List<LinkedHashMap<String, Object>> getResultInfoList();	
+	public List<LinkedHashMap<String, Object>> getResultInfoList(WorkerDto workerInfo);	
 	public List<LinkedHashMap<String, Object>> getTaskAggList();
 	public List<LinkedHashMap<String, Object>> getTaskIdResultList(WorkerDto workerInfo);
 	

@@ -23,6 +23,7 @@
         	, bank_name
         	, bank_acct
         	, stdt_no
+        	, level
 		FROM worker_info
 		<where>		
 		<if test="user_id != null">AND user_id = #{user_id} </if>
@@ -53,6 +54,7 @@
 			, bank_name
 			, bank_acct
 			, stdt_no
+			, level
 		) VALUES (
 			#{user_id}
 			,  crypt(#{passwd}, gen_salt('bf'))
@@ -68,6 +70,7 @@
 			, #{bank_name}
 			, #{bank_acct}
 			, #{stdt_no}
+			, 10
 		)
 	</insert>
 	
@@ -259,7 +262,7 @@
 		) a
 	</select>
 	
-	<select id="getResultInfoList" parameterType="java.lang.String" resultType="resultMap">
+	<select id="getResultInfoList" parameterType="workerDto" resultType="resultMap">
 		SELECT 
         	a.result_id
         	, a.task_id
@@ -272,8 +275,11 @@
         	, b.name
 		FROM result_info a
 		left join worker_info b
-			on a.worker_id = b.worker_id 
-		order by a.result_id 
+			on a.worker_id = b.worker_id
+		<if test="worker_id != null and worker_id != 0">
+		where a.worker_id = #{worker_id}
+		</if> 
+		order by a.result_id
 	</select>
 	
 	

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -19,13 +20,8 @@
 <!-- Custom styles for this template-->
 <link href="/resources/css/sb-admin-2.css" rel="stylesheet">
 
-<!--     
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="/resources/semanticUI/semantic.min.css">
-	<script src="/kakao/resources/semanticUI/semantic.min.js"></script>
- 	-->
-
+<!-- Custom styles for this page -->
+<link href="/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -65,9 +61,24 @@
 					<i class="fas fa-fw fa-cog"></i> <span>마이페이지</span>
 				</a></li>
 
+			<c:if test="${workerInfo.level == 1}">
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
 
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link" href="/admin/dashboard">
+					- <span>태스크 결과 목록</span>
+				</a></li>
+
+			<!-- Nav Item - Utilities Collapse Menu -->
+			<li class="nav-item"><a class="nav-link" href="/admin/dashboard2">
+					- <span>전체 태스크 상태</span>
+				</a></li>
+			</c:if>
+			
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
+			
 			<!-- Sidebar Toggler (Sidebar) -->
 			<div class="text-center d-none d-md-inline">
 				<button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -165,6 +176,36 @@
 							</div>
 						</div>
 					</div>
+					
+					<div class="mb-2">&nbsp;</div>
+					<h2>태스크 결과</h2>
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align:center;">
+						<thead>
+							<tr>
+								<th>No.</th>
+								<th>태스크 ID</th>
+								<th>평가 시간(초)</th>
+								<th>평가 점수</th>
+								<th>평가 결과</th>
+								<th>평가 시간</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="result" items="${resultList}" varStatus="status">
+								<tr>
+									<td>${status.count}</td>
+									<td>
+										<input type="hidden" name="resultId" value="${result.result_id}" />
+										${result.task_id}
+									</td>
+									<td>${result.eval_time}</td>
+									<td>${result.eval_score}</td>
+									<td>${result.eval_result}</td>
+									<td>${result.reg_date}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 
 				</div>
 				<!-- /.container-fluid -->
@@ -221,6 +262,13 @@
 
 	<!-- Custom scripts for all pages-->
 	<script src="/resources/js/sb-admin-2.min.js"></script>
+	
+	<!-- Page level plugins -->
+	<script src="/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Page level custom scripts -->
+    <script src="/resources/js/demo/datatables-demo.js"></script>
+	
 </body>
 </html>

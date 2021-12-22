@@ -55,7 +55,7 @@ public class AdminController {
 		model.addAttribute("missionPctge", String.format("%.2f", pctge));
 		model.addAttribute("reward", evalTaskCnt*1200);
 		
-		List<LinkedHashMap<String, Object>> resultList = cs.getResultInfoList();		
+		List<LinkedHashMap<String, Object>> resultList = cs.getResultInfoList(new WorkerDto());		
 		model.addAttribute("resultList", resultList);
 		
 		return "admin/dashboard";
