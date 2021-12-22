@@ -71,7 +71,7 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 
-<!-- 개인정보처리방침 Modal -->
+	<!-- 개인정보처리방침 Modal -->
 	<div class="modal fade" id="privateModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 		<div class="modal-dialog" role="document" style="color:#000;">
 			<div class="modal-content">
@@ -250,7 +250,7 @@
 		</div>
 	</div>
 
-	<!-- 개인정보처리방침 Modal -->
+	<!-- 이용방법 및 주의사항 Modal -->
 	<div class="modal fade" id="warningEvalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document" style="color: #000;">
 			<div class="modal-content">

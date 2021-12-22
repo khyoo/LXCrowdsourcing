@@ -3,6 +3,7 @@ package com.infolab.cs.web;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.infolab.cs.model.WorkerDto;
 import com.infolab.cs.service.CrowdLXService;
@@ -84,5 +87,25 @@ public class AdminController {
 		model.addAttribute("resultList", resultList);
 		
 		return "admin/dashboard2";
+	}
+	
+	/**
+	 * Admin taskIdResultList
+	 */
+	@RequestMapping(value = "/taskIdResultList", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> taskIdResultList(Locale locale, Model model, 
+			@RequestParam(value = "resultId", defaultValue = "") int resultId) {
+		logger.info("Controller(GET): /taskIdResultList The client locale is {}.", locale);
+		
+		WorkerDto workerInfo = new WorkerDto();
+		workerInfo.setResult_id(resultId);
+		
+		List<LinkedHashMap<String, Object>> resultList = cs.getTaskIdResultList(workerInfo);		
+		
+		Map<String, Object> resData = new LinkedHashMap<String, Object>();
+		resData.put("result", resultList);
+		
+		return resData;
 	}
 }

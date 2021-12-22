@@ -180,7 +180,10 @@
 							<c:forEach var="result" items="${resultList}" varStatus="status">
 								<tr>
 									<td>${status.count}</td>
-									<td>${result.task_id}</td>
+									<td>
+										<input type="hidden" name="resultId" value="${result.result_id}" />
+										<a class="taskId" href="#">${result.task_id}</a>
+									</td>
 									<td>${result.name}</td>
 									<td>${result.eval_time}</td>
 									<td>${result.eval_score}</td>
@@ -236,6 +239,20 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 개별 태스크 수행 결과 Modal -->
+	<div class="modal fade" id="taskResultModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document" style="color:#000;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">개별 태스크 수행 결과</h5>
+				</div>
+				<div class="modal-body resultDiv">
+					
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Bootstrap core JavaScript-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
@@ -254,5 +271,58 @@
     <!-- Page level custom scripts -->
     <script src="/resources/js/demo/datatables-demo.js"></script>
 
+	<script>	
+		$('.taskId').click(function() {
+			$('#taskResultModal').modal('show');
+			
+			var idx = $('.taskId').index(this);
+			
+			$.ajax({
+				type : "GET",
+				url : "/admin/taskIdResultList",
+				//data : JSON.stringify(params),
+				data : {"resultId": $('[name=resultId]').eq(idx).val()},
+				dataType : "json",				
+				error : function() {
+					alert('통신실패!!');
+				},
+				success : function(data) {	console.log(data);					
+					if(data.result.length>0) {
+						var html = '';
+						html += '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="text-align:center;">';
+						html += '	<thead>';
+						html += '		<tr>';
+						html += '			<th>No.</th>';
+						html += '			<th>왼쪽 이미지</th>';
+						html += '			<th>오른쪽 이미지</th>';
+						html += '			<th>평가 결과</th>';
+						html += '		</tr>';
+						html += '	</thead>';
+						html += '	<tbody>';
+						for(var i=0; i<data.result.length; i++) {
+							var temp = '';
+							if(data.result[i].worker_answer == 'left') {
+								temp = '왼쪽';
+							} else if(data.result[i].worker_answer == 'right') {
+								temp = '오른쪽';
+							} else if(data.result[i].worker_answer == 'equal') {
+								temp = '일치';
+							}
+							html += '		<tr>';
+							html += '			<th>'+ (i+1) +'</th>';
+							html += '			<th>'+ data.result[i].image_id1 +'</th>';
+							html += '			<th>'+ data.result[i].image_id2 +'</th>';
+							html += '			<th>'+ temp +'</th>';
+							html += '		</tr>';
+						}
+						html += '	</tbody>';
+						html += '<table>';
+						
+						$('.resultDiv').html(html);
+					}
+				}
+			});
+		});	
+	</script>
 </body>
 </html>

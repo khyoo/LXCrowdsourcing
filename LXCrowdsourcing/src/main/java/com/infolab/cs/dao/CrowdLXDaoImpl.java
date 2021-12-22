@@ -256,4 +256,12 @@ public class CrowdLXDaoImpl implements CrowdLXDao {
 		
 		return resultList;
 	}	
+	
+	@Override
+	public List<LinkedHashMap<String, Object>> getTaskIdResultList(WorkerDto workerInfo) {	
+		
+		resultList = sqlSession.selectList("CrowdLXMapper.getTaskIdResultList", workerInfo);
+		
+		return resultList;
+	}
 }

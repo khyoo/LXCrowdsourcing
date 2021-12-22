@@ -299,6 +299,27 @@
 	</select>
 	
 	
+	<select id="getTaskIdResultList" parameterType="workerDto" resultType="resultMap">
+		SELECT 
+			a.task_seq
+			, a.task_id
+			, a.worker_id
+			, a.task_order
+			, a.pair_id
+			, a.pre_yn
+			, a.pre_answer
+			, a.worker_answer
+			, a.result_id
+			, a.reg_date
+			, b.image_id1 
+			, b.image_id2 
+		FROM task_result_list a
+		left join pairwise_info b
+			on a.pair_id = b.pair_id 
+		where a.result_id = #{result_id}
+		order by a.task_order
+	</select>
+	
 	<!-- ******************************************************** -->
 	
 </mapper>
