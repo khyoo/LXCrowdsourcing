@@ -66,7 +66,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/dashboard2", method = RequestMethod.GET)
 	public String dashboard2(Locale locale, Model model, HttpServletRequest request) {
-		logger.info("Controller(GET): /dashboard The client locale is {}.", locale);
+		logger.info("Controller(GET): /dashboard2 The client locale is {}.", locale);
 		
 		HttpSession session = request.getSession();
 		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo"); 
@@ -107,5 +107,33 @@ public class AdminController {
 		resData.put("result", resultList);
 		
 		return resData;
+	}
+	
+	/**
+	 * Admin userList
+	 */
+	@RequestMapping(value = "/userList", method = RequestMethod.GET)
+	public String userList(Locale locale, Model model, HttpServletRequest request) {
+		logger.info("Controller(GET): /userList The client locale is {}.", locale);
+				
+		HttpSession session = request.getSession();
+		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo"); 
+		
+		model.addAttribute("workerInfo", workerInfo);
+		
+		int totalTaskCnt = cs.getTotalTaskCnt();
+		int evalTaskCnt = cs.getEvalTaskCnt();
+		
+		float pctge = ((float)evalTaskCnt/totalTaskCnt)*100;
+		
+		model.addAttribute("missionTotalCnt", totalTaskCnt);
+		model.addAttribute("missionCnt", evalTaskCnt);
+		model.addAttribute("missionPctge", String.format("%.2f", pctge));
+		model.addAttribute("reward", evalTaskCnt*1200);
+		
+		List<LinkedHashMap<String, Object>> resultList = cs.getUserList();		
+		model.addAttribute("resultList", resultList);
+		
+		return "admin/userInfo";
 	}
 }

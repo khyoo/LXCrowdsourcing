@@ -269,6 +269,8 @@ public class MainController {
 		
 		System.out.println(evalTasks);
 		
+		model.addAttribute("left", "eval");
+		
 		int task_id = 0;		
 		if (taskId != null && !"".equals(taskId)) {
 			task_id = Integer.parseInt(taskId);
@@ -336,6 +338,8 @@ public class MainController {
 			@RequestParam(value = "questAnswer", defaultValue = "0") int questAnswer) throws IOException {	
 	
 		logger.info("Controller(POST): /evaluation The client locale is {}.", locale);
+		
+		model.addAttribute("left", "eval");
 		
 		HttpSession session = request.getSession();
 		WorkerDto workerInfo = (WorkerDto) session.getAttribute("workerInfo");

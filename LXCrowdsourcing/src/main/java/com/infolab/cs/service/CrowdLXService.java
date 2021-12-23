@@ -133,4 +133,5 @@ public class CrowdLXService {
 	public List<LinkedHashMap<String, Object>> getTaskAggList() { return  dataDao.getTaskAggList(); }	
 	public List<LinkedHashMap<String, Object>> getTaskIdResultList(WorkerDto workerInfo) { return dataDao.getTaskIdResultList(workerInfo); }
 	
+	public List<LinkedHashMap<String, Object>> getUserList() { return  dataDao.getUserList(); }
 }

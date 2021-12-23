@@ -326,6 +326,28 @@
 		order by a.task_order
 	</select>
 	
+	
+	<select id="getUserList" parameterType="java.lang.String" resultType="resultMap">
+		SELECT 
+			worker_id
+			, name
+			, user_id
+			, phone
+			, sex
+			, birth
+			, age
+			, email
+			, address
+			, bank_code
+			, bank_acct
+			, bank_name
+			, stdt_no
+			, "level"
+		FROM worker_info
+		where level = 10
+		order by trim(name)
+	</select>
+	
 	<!-- ******************************************************** -->
 	
 </mapper>

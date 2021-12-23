@@ -49,6 +49,7 @@
 			<mapping path="/evaluation"/>
 			<mapping path="/mypage"/>						
 			<mapping path="/evalEnd"/>
+			<mapping path="/admin/*"/>
 			<beans:ref bean="intercepter"/>
 		</interceptor>
 	</interceptors>

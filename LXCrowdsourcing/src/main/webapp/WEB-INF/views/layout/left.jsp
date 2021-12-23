@@ -4,31 +4,67 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-	<!-- Sidebar - Brand -->
-	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
-		<div class="sidebar-brand-icon rotate-n-15">
-			<i class="fas fa-laugh-wink"></i>
-		</div>
-		<div class="sidebar-brand-text mx-3">설문조사</div>
-	</a>
+	<c:if test="${left ne 'eval'}">
+		<!-- Sidebar - Brand -->
+		<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+			<div class="sidebar-brand-icon rotate-n-15">
+				<i class="fas fa-laugh-wink"></i>
+			</div>
+			<div class="sidebar-brand-text mx-3">설문조사</div>
+		</a>
 
-	<!-- Divider -->
-	<hr class="sidebar-divider my-0">
+		<!-- Divider -->
+		<hr class="sidebar-divider my-0">
 
-	<!-- Nav Item - Dashboard -->
-	<li class="nav-item active"><a class="nav-link" href="/dashboard"> <i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
-	</a></li>
+		<!-- Nav Item - Dashboard -->
+		<li class="nav-item active"><a class="nav-link" href="/dashboard">
+				<i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
+			</a></li>
 
-	<!-- Divider -->
-	<hr class="sidebar-divider">
+		<!-- Divider -->
+		<hr class="sidebar-divider">
 
-	<!-- Nav Item - Pages Collapse Menu -->
-	<li class="nav-item"><a class="nav-link" href="/evaluation/g2"> <i class="fas fa-fw fa-chart-area"></i> <span>새태스크 평가</span>
-	</a></li>
+		<!-- Nav Item - Pages Collapse Menu -->
+		<li class="nav-item"><a class="nav-link" href="/evaluation/g2">
+				<i class="fas fa-fw fa-chart-area"></i> <span>새태스크 평가</span>
+			</a></li>
 
-	<!-- Nav Item - Utilities Collapse Menu -->
-	<li class="nav-item"><a class="nav-link" href="/mypage"> <i class="fas fa-fw fa-cog"></i> <span>마이페이지</span>
-	</a></li>
+		<!-- Nav Item - Utilities Collapse Menu -->
+		<li class="nav-item"><a class="nav-link" href="/mypage">
+				<i class="fas fa-fw fa-cog"></i> <span>마이페이지</span>
+			</a></li>
+	</c:if>
+
+	<c:if test="${left eq 'eval'}">
+		<!-- Sidebar - Brand -->
+		<a class="sidebar-brand d-flex align-items-center justify-content-center btn_root" href="#">
+			<div class="sidebar-brand-icon rotate-n-15">
+				<i class="fas fa-laugh-wink"></i>
+			</div>
+			<div class="sidebar-brand-text mx-3">설문조사</div>
+		</a>
+
+		<!-- Divider -->
+		<hr class="sidebar-divider my-0">
+
+		<!-- Nav Item - Dashboard -->
+		<li class="nav-item"><a class="nav-link btn_dash" href="#">
+				<i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span>
+			</a></li>
+
+		<!-- Divider -->
+		<hr class="sidebar-divider">
+
+		<!-- Nav Item - Pages Collapse Menu -->
+		<li class="nav-item active"><a class="nav-link btn_newEval" href="#">
+				<i class="fas fa-fw fa-chart-area"></i> <span>새태스크 평가</span>
+			</a></li>
+
+		<!-- Nav Item - Utilities Collapse Menu -->
+		<li class="nav-item"><a class="nav-link btn_mypage" href="#">
+				<i class="fas fa-fw fa-cog"></i> <span>마이페이지</span>
+			</a></li>
+	</c:if>
 
 	<c:if test="${workerInfo.level == 1}">
 		<!-- Divider -->
@@ -40,6 +76,13 @@
 
 		<!-- Nav Item - Utilities Collapse Menu -->
 		<li class="nav-item"><a class="nav-link" href="/admin/dashboard2"> - <span>전체 태스크 상태</span>
+		</a></li>
+		
+		<!-- Divider -->
+		<hr class="sidebar-divider d-none d-md-block">
+
+		<!-- Nav Item - Pages Collapse Menu -->
+		<li class="nav-item"><a class="nav-link" href="/admin/userList"> - <span>워커 목록</span>
 		</a></li>
 	</c:if>
 
