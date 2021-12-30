@@ -19,12 +19,12 @@
 <!-- Custom styles for this template-->
 <link href="/resources/css/sb-admin-2.css" rel="stylesheet">
 
-<!--     
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="/resources/semanticUI/semantic.min.css">
-	<script src="/kakao/resources/semanticUI/semantic.min.js"></script>
- 	-->
+ 	<script>
+	 	function image404(id) {
+			$('#'+id).attr("src", "http://info.rlog.kr:35000/images/111018349902.jpg");	
+		}
+			
+ 	</script>
 
 </head>
 
@@ -139,7 +139,7 @@
 									</p>
 									</div>									
 								</div>
-								<div class="col-5" id="eee">
+								<div class="col-5">
 									<p style="text-align: center;">
 										<img src="http://info.rlog.kr:35000/images/${img2}" id="img_id_2" onerror="image404(this.id)" alt="" class="img-comparision img2">									
 									</p>
@@ -224,50 +224,6 @@
 		</div>
 	</div>
 
-	<!-- 평가 종료 Modal
-	<div class="pop-wrap" id="layer01" style="display: none">
-		<dl>
-			<dt class="pop-header">
-				로그인
-				<a href="#none" class="btnp-close">팝업창 닫힘</a>
-			</dt>
-			<dd class="pop-box">
-				<div class="pop-cont">
-					<div class="pop-msg">
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
-						<p>Lorem ipsum dolor sit amet, ipisicing.</p>
-						<p>Lorem ipsu consectetur adipisicing.</p>
-					</div>
-				</div>
-				<div class="pop-noti">
-					<div>
-						<input type="checkbox" name="" id="daychk01" /> <label for="daychk01">1주일간 보지 않기</label>
-					</div>
-				</div>
-			</dd>
-		</dl>
-	</div>
- -->
-<!-- 
-	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">...</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
-
 <!-- Modal -->
 <div class="modal fade" id="alertEvalChoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -339,10 +295,6 @@
 	<script>
 		
 		window.history.pushState(null, document.title, location.href); 
-			
-		function image404(id) {
-			$('#'+id).attr("src", "http://info.rlog.kr:35000/images/111019266803.jpg");	
-		}
 		
 		var choiceImg1 = 0;
 		var choiceImg2 = 0;
