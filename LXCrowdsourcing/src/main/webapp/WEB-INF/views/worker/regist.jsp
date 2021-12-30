@@ -64,12 +64,14 @@
 								<span class="regist-idchk"></span>
 							</div>
 						</div>
+						<!-- 
 						<div class="form-group">
 							<label for="userId" class="col-sm-3 control-label">학번<span class="necessary">*</span></label>
 							<div class="col-sm-9">
 								<input type="text" name="stdt_no" id="stdtNo" placeholder="학번을 입력해 주십시오." class="form-control" maxlength="20" required>								
 							</div>
 						</div>
+						 -->
 						<div class="form-group">
 							<label for="password" class="col-sm-3 control-label">Password<span class="necessary">*</span></label>
 							<div class="col-sm-9">
@@ -299,7 +301,7 @@
 			
 			var params = {
 				"user_id" : $('#userId').val(),
-				"stdt_no" : $('#stdtNo').val(),
+				//"stdt_no" : $('#stdtNo').val(),
 				"passwd" : $('#passwd1').val(),
 				"name" : $('[name="name"]').val(),
 				"email" : $('[name="email"]').val(),

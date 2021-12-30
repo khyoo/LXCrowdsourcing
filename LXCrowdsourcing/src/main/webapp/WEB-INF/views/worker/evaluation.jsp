@@ -129,7 +129,7 @@
 							<div class="row">								 
 								<div class="col-5">
 									<p style="text-align: center;">
-										<img src="http://info.rlog.kr:35000/images/${img1}" alt="" class="img-comparision img1">									
+										<img src="http://info.rlog.kr:35000/images/${img1}" id="img_id_1" onerror="image404(this.id)" alt="" class="img-comparision img1">									
 									</p>
 								</div>
 								<div class="col-2">
@@ -141,7 +141,7 @@
 								</div>
 								<div class="col-5" id="eee">
 									<p style="text-align: center;">
-										<img src="http://info.rlog.kr:35000/images/${img2}" alt="" class="img-comparision img2">									
+										<img src="http://info.rlog.kr:35000/images/${img2}" id="img_id_2" onerror="image404(this.id)" alt="" class="img-comparision img2">									
 									</p>
 								</div>
 							</div>
@@ -340,6 +340,10 @@
 		
 		window.history.pushState(null, document.title, location.href); 
 			
+		function image404(id) {
+			$('#'+id).attr("src", "http://info.rlog.kr:35000/images/111019266803.jpg");	
+		}
+		
 		var choiceImg1 = 0;
 		var choiceImg2 = 0;
 		var choiceImg3 = 0;

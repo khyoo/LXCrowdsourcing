@@ -65,12 +65,14 @@
 								<input type="text" name="name" id="name" placeholder="이름을 입력해 주십시오." class="form-control" value="${result.name}" readonly required>
 							</div>
 						</div>			
+						<!-- 
 						<div class="form-group">
 							<label for="userId" class="col-sm-3 control-label">학번<span class="necessary">*</span></label>
 							<div class="col-sm-9">
 								<input type="text" name="stdt_no" id="stdtNo" placeholder="학번을 입력해 주십시오." class="form-control" value="${result.stdt_no}" readonly required>								
 							</div>
-						</div>			
+						</div>		
+						 -->	
 						<div class="form-group">
 							<label for="password" class="col-sm-3 control-label">Password</label>
 							<div class="col-sm-9">
@@ -459,7 +461,7 @@
 			$('.necessary').show();
 
 			$('#name').prop('readOnly', false);
-			$('#stdtNo').prop('readOnly', false);
+			//$('#stdtNo').prop('readOnly', false);
 			$('#email').prop('readOnly', false);
 			$('#birth1').prop('disabled', false);
 			$('#birth2').prop('disabled', false);
@@ -491,7 +493,7 @@
 			$('.necessary').hide();
 
 			$('#name').prop('readOnly', true);
-			$('#stdtNo').prop('readOnly', true);
+			//$('#stdtNo').prop('readOnly', true);
 			$('#email').prop('readOnly', true);
 			$('#birth1').prop('disabled', true);
 			$('#birth2').prop('disabled', true);
@@ -511,7 +513,7 @@
 			
 			var params = {
 				"user_id" : $('#user_id').val(),
-				"stdt_no" : $('#stdtNo').val(),
+				//"stdt_no" : $('#stdtNo').val(),
 				"worker_id" : $('#worker_id').val(),
 				"name" : $('#name').val(),
 				"email" : $('#email').val(),
