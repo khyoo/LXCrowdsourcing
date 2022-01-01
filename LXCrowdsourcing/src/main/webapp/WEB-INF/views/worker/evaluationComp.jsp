@@ -54,11 +54,17 @@
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 					<form name="evalForm">
-						<div class="row">
-							할당된 평가가 완료되었습니다. 더이상 평가를 진행할 수 없습니다.
-										감사합니다.
+						<div class="row" style="padding-top:150px;align-items:center;justify-content:center;font-size:2em;">		
 						</div>
-						
+						<div class="row" style="align-items:center;justify-content:center;font-size:2em;">
+							할당된 평가가 완료되었습니다.
+						</div>
+						<div class="row" style="align-items:center;justify-content:center;font-size:2em;">
+							더이상 평가를 진행할 수 없습니다.
+						</div>
+						<div class="row" style="padding-bottom:30px;align-items:center;justify-content:center;font-size:2em;">
+							감사합니다.	
+						</div>
 						<div class="row">
 							<div class="col-4"></div>
 							<div class="col-4" style="text-align: center;">
