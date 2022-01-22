@@ -202,6 +202,12 @@
 			<version>${org.apache.tiles-version}</version>
 		</dependency> 
 		<!-- Tiles Framework 관련 -->
+		
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.6</version>
+		</dependency>
 	
 		<!-- Test -->
 		<dependency>

@@ -272,4 +272,16 @@ public class CrowdLXDaoImpl implements CrowdLXDao {
 		
 		return resultList;
 	}	
+	
+	
+	
+	
+	
+	@Override
+	public List<LinkedHashMap<String, Object>> getImageList() {	
+		
+		resultList = sqlSession.selectList("CrowdLXMapper.getImageList");
+		
+		return resultList;
+	}
 }

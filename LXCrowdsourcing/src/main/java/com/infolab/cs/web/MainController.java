@@ -1,6 +1,9 @@
 package com.infolab.cs.web;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,9 +12,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.validator.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -473,4 +478,28 @@ public class MainController {
 //		
 //		return "worker/insertData";
 //	}
+	
+	
+	@RequestMapping(value = "/validImage", method = RequestMethod.GET)
+	public String insertData(Model model, HttpServletRequest request) {
+		
+		List<LinkedHashMap<String, Object>> resultList = cs.getImageList();
+		
+		Image image = null;
+		System.out.println("**********");
+		for(int i=0; i<resultList.size(); i++) {
+	        try {
+	            URL url = new URL("http://info.rlog.kr:35000/images/"+resultList.get(i).get("img_name"));
+	            BufferedImage img = ImageIO.read(url); 
+	            ///System.out.println("OK : " + resultList.get(i).get("img_name"));
+	        } catch (IOException e) {
+	         //e.printStackTrace();
+	        	System.out.println("********************************************");
+	        	System.out.println("404 : " + resultList.get(i).get("img_name"));
+	        	System.out.println("********************************************");
+	        }
+		}
+		
+		return "validImage";
+	}
 }

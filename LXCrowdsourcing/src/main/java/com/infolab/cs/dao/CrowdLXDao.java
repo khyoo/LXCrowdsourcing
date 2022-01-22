@@ -46,4 +46,7 @@ public interface CrowdLXDao {
 	public List<LinkedHashMap<String, Object>> getTaskIdResultList(WorkerDto workerInfo);
 
 	public List<LinkedHashMap<String, Object>> getUserList();
+	
+	
+	public List<LinkedHashMap<String, Object>> getImageList();
 }

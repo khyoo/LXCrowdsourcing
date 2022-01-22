@@ -350,4 +350,16 @@
 	
 	<!-- ******************************************************** -->
 	
+	
+	
+	<select id="getImageList" parameterType="java.lang.String" resultType="resultMap">
+		SELECT 
+			id
+			, panoid
+			, road_no
+			, nn_land_renm
+			, img_name
+		FROM image_list_lx
+		order by panoid, img_name 	
+	</select>
 </mapper>
